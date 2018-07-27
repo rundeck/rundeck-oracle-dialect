@@ -22,8 +22,10 @@ public class RundeckOracleDialect
 
         registerColumnType(Types.LONGVARCHAR, "clob");
         registerColumnType(Types.LONGVARBINARY, "blob");
+    }
 
-        registerColumnType(Types.VARCHAR, 4000, "varchar2($l char)");
-        registerColumnType(Types.VARCHAR, "clob");
+    protected void registerCharacterTypeMappings() {
+        super.registerCharacterTypeMappings();
+        registerColumnType(Types.VARCHAR, "varchar($l)");
     }
 }
