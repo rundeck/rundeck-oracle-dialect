@@ -11,7 +11,7 @@ deploy:
     tags: true
 # Snapshots
 - provider: script
-  script: TERM=dumb ./gradlew -PsonatypeUsername=$SONATYPE_USER -PsonatypePassword=$SONATYPE_PASSWORD ./gradlew uploadArchives
+  script: TERM=dumb ./gradlew -PsonatypeUsername=$SONATYPE_USER -PsonatypePassword=$SONATYPE_PASSWORD uploadArchives
   skip_cleanup: true
   on:
     repo: rundeck/rundeck-oracle-dialect
