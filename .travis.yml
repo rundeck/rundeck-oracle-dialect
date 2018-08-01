@@ -4,7 +4,7 @@ jdk:
 deploy:
 # Bintray release
 - provider: script
-  script: TERM=dumb ./gradlew -PdryRun=false -PbintrayUser="${BINTRAY_USER}" -PbintrayApiKey="${BINTRAY_API_KEY}" bintrayUpload
+  script: TERM=dumb ./gradlew --info -PdryRun=false -PbintrayUser="${BINTRAY_USER}" -PbintrayApiKey="${BINTRAY_API_KEY}" bintrayUpload
   skip_cleanup: true
   on:
     repo: rundeck/rundeck-oracle-dialect
