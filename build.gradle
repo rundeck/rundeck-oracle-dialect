@@ -30,6 +30,21 @@ dependencies {
     implementation 'org.hibernate:hibernate-core:5.1.13.Final'
 }
 
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
 // signing {
 //     sign configurations.archives
 // }
@@ -50,6 +65,7 @@ bintray {
     key = findProperty("bintrayApiKey")
 
     dryRun = (findProperty('dryRun') ?: 'true').toBoolean()
+    publish = true
     configurations = ['archives']
     pkg {
         repo = 'maven'
