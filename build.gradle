@@ -1,6 +1,18 @@
+import org.gradle.plugins.signing.Sign
+
+buildscript {
+    dependencies {
+        classpath 'com.adaptc.gradle:nexus-workflow:0.6'
+    }
+}
+
 plugins {
     id 'pl.allegro.tech.build.axion-release' version '1.8.1'
+    id 'signing'
+    id 'maven'
 }
+
+apply plugin: 'nexus-workflow'
 
 allprojects {
     project.version = scmVersion.version
@@ -14,4 +26,20 @@ repositories {
 }
 dependencies {
     implementation 'org.hibernate:hibernate-core:5.1.13.Final'
+}
+
+// signing {
+//     sign publishing.publications.mavenJava
+// }
+
+uploadArchives {
+    configuration = configurations.archives
+    repositories.mavenDeployer {
+        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+        snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+            authentication(userName: sonatypeUsername, password: sonatypePassword)
+        }
+    }
 }

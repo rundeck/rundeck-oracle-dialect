@@ -1,4 +1,4 @@
-package com.rundeck.hibernate;
+package org.rundeck.hibernate;
 
 import org.hibernate.dialect.Oracle10gDialect;
 
