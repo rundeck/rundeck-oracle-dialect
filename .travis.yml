@@ -4,16 +4,16 @@ jdk:
 deploy:
 # Bintray release
 - provider: script
-  script: TERM=dumb ./gradlew -PdryRun=false -PbintrayUser=$BINTRAY_USER -PbintrayApiKey=$BINTRAY_API_KEY bintrayUpload
+  script: ./gradlew -PdryRun=false -PbintrayUser=$BINTRAY_USER -PbintrayApiKey=$BINTRAY_API_KEY bintrayUpload
   skip_cleanup: true
   on:
     repo: rundeck/rundeck-oracle-dialect
     tags: true
 # Snapshots
 - provider: script
-  script: TERM=dumb ./gradlew -PsonatypeUsername=$SONATYPE_USER -PsonatypePassword=$SONATYPE_PASSWORD ./gradlew uploadArchives
+  script: ./gradlew -PsonatypeUsername=$SONATYPE_USER -PsonatypePassword=$SONATYPE_PASSWORD ./gradlew uploadArchives
   skip_cleanup: true
   on:
     repo: rundeck/rundeck-oracle-dialect
-    branch: master
+    branch: travis-build
     tags: false
