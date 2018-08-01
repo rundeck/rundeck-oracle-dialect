@@ -4,13 +4,18 @@ jdk:
 - openjdk8
 #- oraclejdk9
 deploy:
-  provider: releases
-  api_key:
-    secure: "rWQaY2XC2xFBVfEUrC8tViGzXm1LsgGuWIZKEgptZvHNyJrusLJZnJCZ9Lo4xFihbwHuJaeRbrhYYYWlr3Z7ynd7u1DJXaneOmWqPTLZ7t99twCwk0WJWBMKDhiPktNab2SZvwYzoAwFC93OTsxHBn06DJyfOOIFPTdbHKglDEsFg8r7IfarKWr2gFHbqiBJMQrrH4aQgi7if4WzijAsY0BVxSuigC3FMc4dHIQE9sMkhW/LcviIz3V6RNVIQu9UVsuwgr2V3sz3uAsRYXmwW9UHsT2X/2vaZsaz9sGUcm+pKHF7MhY7QlMdYZh9T3OgWX2m+if3hP1cyhY0Eiuy2pQF8ZodwCI3xuTpO4iu8Vg/cSpCR1GwbeE0/8ikIa8EWTIFj8XuWtZL2K4YclUK6yXUIVTXNvCrOFKXKcGNmZffeLveK50pEh7LIdrJfOivD0mpjfZJJvwzQ4S1NEGkLIpbRljOqVsQi5fBzBkEF7euHlMMeuJ696MNedzjxuRDeWlEspqc18nHf+lqu+9d6QC1Ygty3N1bT3SAX4g0dN3yEEFPpBtnZRzjFA3wZVTnf33NW3kPP0ZpcsfugZcakBbZjSOQXNWpyY5gyEU3IjQmIJwftnR17NS2AWqQwp2CtUSIg8ayC8Mr6rkUBFvymI0QIrKNQ98a8YZXdFWOdG0="
-  file:
-    - build/libs/*.jar
-  on:
-    repo: gschueler/rundeck_oracle_dialect
-    tags: true
-  file_glob: true
+# Bintray release
+- provider: script
+  script: TERM=dumb ./gradlew -PdryRun=false -PbintrayUser=$BINTRAY_USER -PbintrayApiKey=$BINTRAY_API_KEY bintrayUpload
   skip_cleanup: true
+  on:
+    repo: rundeck/rundeck-oracle-dialect
+    tags: true
+# Snapshots
+- provider: script
+  script: TERM=dumb ./gradlew -PsonatypeUsername=$SONATYPE_USER -PsonatypePassword=$SONATYPE_PASSWORD ./gradlew uploadArchives
+  skip_cleanup: true
+  on:
+    repo: rundeck/rundeck-oracle-dialect
+    branch: master
+    tags: false
