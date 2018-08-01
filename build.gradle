@@ -3,6 +3,7 @@ import org.gradle.plugins.signing.Sign
 buildscript {
     dependencies {
         classpath 'com.adaptc.gradle:nexus-workflow:0.6'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 
@@ -13,6 +14,7 @@ plugins {
 }
 
 apply plugin: 'nexus-workflow'
+apply plugin: "com.jfrog.bintray"
 
 allprojects {
     project.version = scmVersion.version
@@ -29,17 +31,29 @@ dependencies {
 }
 
 // signing {
-//     sign publishing.publications.mavenJava
+//     sign configurations.archives
 // }
 
 uploadArchives {
     configuration = configurations.archives
-    repositories.mavenDeployer {
-        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
-            authentication(userName: sonatypeUsername, password: sonatypePassword)
+    doFirst {
+        repositories.mavenDeployer {
+            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
         }
-        snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
-            authentication(userName: sonatypeUsername, password: sonatypePassword)
-        }
+    }
+}
+
+bintray {
+    user = findProperty("bintrayUser")
+    key = findProperty("bintrayApiKey")
+
+    dryRun = (findProperty('dryRun') ?: 'true').toBoolean()
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'rundeck-oracle-dialect'
+        userOrg = 'rundeck'
     }
 }
