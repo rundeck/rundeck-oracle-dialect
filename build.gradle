@@ -9,26 +9,58 @@ buildscript {
 
 plugins {
     id 'pl.allegro.tech.build.axion-release' version '1.8.1'
-    id 'signing'
     id 'maven'
 }
 
-apply plugin: 'nexus-workflow'
 apply plugin: "com.jfrog.bintray"
+apply plugin: 'java'
+apply plugin: 'idea'
 
 allprojects {
     project.version = scmVersion.version
     apply plugin: 'maven'
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
 repositories {
     mavenCentral()
 }
+
 dependencies {
     implementation 'org.hibernate:hibernate-core:5.1.13.Final'
 }
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            inceptionYear '2018'
+            packaging 'jar'
+            version version
+            name "$project.name"
+            description 'Custom dialect for Oracle databases.'
+            url 'http://rundeck.org'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url 'https://github.com/rundeck/rundeck-oracle-dialect'
+                connection 'scm:git:git@github.com/rundeck/rundeck-oracle-dialect.git'
+                developerConnection 'scm:git:git@github.com:rundeck/rundeck-oracle-dialect.git'
+            }
+            developers {
+                developer {
+                    id('gschueler')
+                    name('Greg Schueler')
+                    email('greg@rundeck.com')
+                }
+            }
+        }
+    }
+}
+
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
@@ -67,5 +99,13 @@ bintray {
         repo = 'maven'
         name = 'rundeck-oracle-dialect'
         userOrg = 'rundeck'
+
+        version {
+            mavenCentralSync {
+                sync = true //[Default: true] Determines whether to sync the version to Maven Central.
+                user = findProperty('ossUserToken') //OSS user token: mandatory
+                password = findProperty('ossUserPassword') //OSS user password: mandatory
+            }
+        }
     }
 }
