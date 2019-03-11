@@ -8,6 +8,10 @@ This alternate oracle dialect is to tell the oracle driver to use updated (clob/
 instead of the deprecated long. This should allow rundeck to startup and create all tables without issues. 
 Tested on Oracle12c.
 
+## Download
+
+[ ![Download](https://api.bintray.com/packages/rundeck/maven/rundeck-oracle-dialect/images/download.svg?version=latest) ](https://bintray.com/rundeck/maven/rundeck-oracle-dialect/)
+
 ## Install
 copy jar file to:
 
