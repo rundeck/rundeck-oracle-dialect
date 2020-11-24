@@ -19,7 +19,7 @@ copy jar file to:
 
 edit rundeck-config.properties change/add dialect to:
 
-`dataSource.dialect = com.rundeck.hibernate.RundeckOracleDialect`
+`dataSource.dialect = org.rundeck.hibernate.RundeckOracleDialect`
 
 start up!
 
