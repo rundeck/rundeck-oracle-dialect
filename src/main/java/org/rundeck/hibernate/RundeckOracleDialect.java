@@ -1,6 +1,6 @@
 package org.rundeck.hibernate;
 
-import org.hibernate.dialect.Oracle10gDialect;
+import org.hibernate.dialect.Oracle12cDialect;
 
 import java.sql.Types;
 
@@ -8,8 +8,14 @@ import java.sql.Types;
  * Custom Oracle dialect that fixes various issues with Oracle support in Hibernate.
  */
 public class RundeckOracleDialect
-        extends Oracle10gDialect
+        extends Oracle12cDialect
 {
+    public RundeckOracleDialect() {
+        super();
+        registerLargeObjectTypeMappings();
+        registerCustomCharacterTypeMappings();
+    }
+
     protected void registerLargeObjectTypeMappings() {
         registerColumnType(Types.BLOB, "blob");
         registerColumnType(Types.CLOB, "clob");
@@ -24,8 +30,7 @@ public class RundeckOracleDialect
         registerColumnType(Types.LONGVARBINARY, "blob");
     }
 
-    protected void registerCharacterTypeMappings() {
-        super.registerCharacterTypeMappings();
+    protected void registerCustomCharacterTypeMappings() {
         registerColumnType(Types.VARCHAR, "varchar($l)");
     }
 }
