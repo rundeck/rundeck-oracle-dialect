@@ -1,9 +1,6 @@
-import org.gradle.plugins.signing.Sign
-
 buildscript {
     dependencies {
         classpath 'com.adaptc.gradle:nexus-workflow:0.6'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
 }
 
@@ -12,7 +9,6 @@ plugins {
     id 'maven'
 }
 
-apply plugin: "com.jfrog.bintray"
 apply plugin: 'java'
 apply plugin: 'idea'
 
@@ -26,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.hibernate:hibernate-core:5.1.13.Final'
+    implementation 'org.hibernate:hibernate-core:5.6.15.Final'
 }
 
 install {
@@ -83,28 +79,6 @@ uploadArchives {
         repositories.mavenDeployer {
             snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
                 authentication(userName: sonatypeUsername, password: sonatypePassword)
-            }
-        }
-    }
-}
-
-bintray {
-    user = findProperty("bintrayUser")
-    key = findProperty("bintrayApiKey")
-
-    dryRun = (findProperty('dryRun') ?: 'true').toBoolean()
-    publish = true
-    configurations = ['archives']
-    pkg {
-        repo = 'maven'
-        name = 'rundeck-oracle-dialect'
-        userOrg = 'rundeck'
-
-        version {
-            mavenCentralSync {
-                sync = true //[Default: true] Determines whether to sync the version to Maven Central.
-                user = findProperty('ossUserToken') //OSS user token: mandatory
-                password = findProperty('ossUserPassword') //OSS user password: mandatory
             }
         }
     }
