@@ -1,8 +1,7 @@
 #!/bin/bash
 
-TERM=dumb ./gradlew --info -PdryRun=false \
-    -PbintrayUser="${BINTRAY_USER}" \
-    -PbintrayApiKey="${BINTRAY_API_KEY}" \
-    -PossUserToken="${OSS_USER_TOKEN}" \
-    -PossUserPassword="${OSS_USER_PASSWORD}" \
-    bintrayUpload
+# Note: Bintray support has been removed. Release publishing now uses Maven Central.
+TERM=dumb ./gradlew --info \
+    -PsonatypeUsername="${SONATYPE_USER}" \
+    -PsonatypePassword="${SONATYPE_PASSWORD}" \
+    uploadArchives
