@@ -32,7 +32,7 @@ jobs:
             --generate-notes \
             --title 'Release ${{ steps.get_version.outputs.VERSION }}' \
             ${{ github.ref_name }} \
-            build/libs/rundeck-oracle-diaclec-${{ steps.get_version.outputs.VERSION }}.jar
+            build/libs/rundeck-oracle-dialect-${{ steps.get_version.outputs.VERSION }}.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to Maven Central
