@@ -7,7 +7,7 @@ plugins {
     id 'io.github.gradle-nexus.publish-plugin' version '1.3.0'
 }
 
-group = 'org.rundeck'
+group = 'org.rundeck.hibernate'
 ext.pluginName = 'Oracle Dialect'
 ext.pluginDescription = 'Custom dialect for Oracle databases.'
 ext.githubSlug = 'rundeck/rundeck-oracle-dialect'
@@ -52,7 +52,7 @@ java {
 }
 
 nexusPublishing {
-    packageGroup = 'org.rundeck'
+    packageGroup = 'org.rundeck.hibernate'
     repositories {
         sonatype {
             nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
