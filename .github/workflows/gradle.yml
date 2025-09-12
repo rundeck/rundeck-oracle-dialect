@@ -30,6 +30,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           # Artifact name
-          name: rundeck-oracle-diaclec-${{ steps.get_version.outputs.VERSION }}
+          name: rundeck-oracle-dialect-${{ steps.get_version.outputs.VERSION }}
           # Directory containing files to upload
           path: build/libs/*-${{ steps.get_version.outputs.VERSION }}.jar
