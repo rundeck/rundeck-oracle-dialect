@@ -28,11 +28,17 @@ jobs:
       - name: Create Release
         id: create_release
         run: |
-          gh release create \
-            --generate-notes \
-            --title 'Release ${{ steps.get_version.outputs.VERSION }}' \
-            ${{ github.ref_name }} \
-            build/libs/rundeck-oracle-dialect-${{ steps.get_version.outputs.VERSION }}.jar
+          if gh release view ${{ github.ref_name }} >/dev/null 2>&1; then
+            echo "Release already exists, updating..."
+            gh release upload ${{ github.ref_name }} \
+              build/libs/rundeck-oracle-dialect-${{ steps.get_version.outputs.VERSION }}.jar
+          else
+            gh release create \
+              --generate-notes \
+              --title 'Release ${{ steps.get_version.outputs.VERSION }}' \
+              ${{ github.ref_name }} \
+              build/libs/rundeck-oracle-dialect-${{ steps.get_version.outputs.VERSION }}.jar
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to Maven Central
