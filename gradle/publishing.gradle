@@ -7,7 +7,7 @@ publishing {
             from components.java
 
             pom {
-                name =
+                name = publishName
                 description = project.ext.hasProperty('publishDescription') ? project.ext.publishDescription :
                         project.description ?: publishName
                 url = "https://github.com/${githubSlug}"
