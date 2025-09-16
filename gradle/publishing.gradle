@@ -47,7 +47,7 @@ def base64Decode = { String prop ->
 
 if (project.hasProperty('signingKey') && project.hasProperty('signingPassword')) {
     signing {
-        useInMemoryPgpKeys(base64Decode("signingKey"), project.signingPassword)
+        useInMemoryPgpKeys(base64Decode("signingKey"), project.findProperty("signingPassword"))
         sign(publishing.publications)
     }
 }
