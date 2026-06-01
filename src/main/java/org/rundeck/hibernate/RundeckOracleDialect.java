@@ -3,7 +3,6 @@ package org.rundeck.hibernate;
 import org.hibernate.dialect.Oracle12cDialect;
 
 import java.sql.Types;
-import java.util.Properties;
 
 /**
  * Custom Oracle dialect that fixes various issues with Oracle support in Hibernate.
@@ -11,14 +10,12 @@ import java.util.Properties;
 public class RundeckOracleDialect
         extends Oracle12cDialect
 {
-    @Override
-    public Properties getDefaultProperties() {
-        Properties props = super.getDefaultProperties();
+    public RundeckOracleDialect() {
+        super();
         // Oracle cannot use CLOB/BLOB columns in SELECT DISTINCT queries (ORA-22848).
         // Disabling passDistinctThrough makes Hibernate deduplicate results in memory
         // instead of emitting SQL DISTINCT, avoiding this Oracle restriction.
-        props.setProperty("hibernate.query.passDistinctThrough", "false");
-        return props;
+        getDefaultProperties().setProperty("hibernate.query.passDistinctThrough", "false");
     }
 
     @Override
