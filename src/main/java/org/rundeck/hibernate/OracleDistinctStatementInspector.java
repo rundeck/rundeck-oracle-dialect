@@ -17,12 +17,14 @@ import java.util.regex.Pattern;
  */
 public class OracleDistinctStatementInspector implements StatementInspector {
 
+    // Anchored to start of statement so it cannot match inside string literals or subqueries.
+    // Oracle's ORA-22848 is only triggered by the outermost SELECT DISTINCT on LOB columns.
     private static final Pattern SELECT_DISTINCT =
-            Pattern.compile("(?i)\\bselect\\s+distinct\\b");
+            Pattern.compile("(?i)^\\s*select\\s+distinct\\b");
 
     @Override
     public String inspect(String sql) {
         if (sql == null) return null;
-        return SELECT_DISTINCT.matcher(sql).replaceAll("select");
+        return SELECT_DISTINCT.matcher(sql).replaceFirst("select");
     }
 }
