@@ -10,12 +10,9 @@ import java.sql.Types;
 public class RundeckOracleDialect
         extends Oracle12cDialect
 {
+
     public RundeckOracleDialect() {
         super();
-        // Oracle cannot use CLOB/BLOB columns in SELECT DISTINCT queries (ORA-22848).
-        // Disabling passDistinctThrough makes Hibernate deduplicate results in memory
-        // instead of emitting SQL DISTINCT, avoiding this Oracle restriction.
-        getDefaultProperties().setProperty("hibernate.query.passDistinctThrough", "false");
     }
 
     @Override
